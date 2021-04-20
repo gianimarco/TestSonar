@@ -43,5 +43,5 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"gianimarco_TestSonar" /o:"gianimarco" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          <your build command>
+          dotnet build "./src/DirectTransact.WebApi.PayAT/DirectTransact.WebApi.PayAT.csproj" -c Release -o ./bld
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
