@@ -61,6 +61,8 @@ namespace DirectTransact.WebApi.PayAT.Controllers
       p.StartInfo.FileName = "exportLegacy.exe";
       p.StartInfo.Arguments = " -user" + username + " -role user";
       p.Start();
+      
+      var dd = "adads";
 
 
       _ = Pow(1, 1);
