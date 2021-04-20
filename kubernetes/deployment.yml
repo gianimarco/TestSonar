@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $$service-name$$-deployment
+  labels:
+    app: $$service-name$$
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: $$service-name$$
+  template:
+    metadata:
+      labels:
+        app: $$service-name$$
+    spec:
+      containers:
+        - name: $$service-name$$
+          image: $$image$$
+          ports:
+            - containerPort: $$port$$
+          env:
+            - name: APPCONFIG_CONNECTIONSTRING
+              value: $$app-config-connection-string$$
+            - name: APPCONFIG_SETTINGSPREFIX
+              value: "$$app-config-prefix$$"
+            - name: ASPNETCORE_ENVIRONMENT
+              value: $$environment$$
+            - name: ASPNETCORE_URLS
+              value: "http://+:$$port$$"
+            - name: APPCONFIG_ENVIRONMENTPREFIX
+              value: "$$environmentPrefix$$"
+          resources:
+            limits: 
+              cpu: 500m
+            requests:
+              cpu: 200m
+      imagePullSecrets:
+        - name: acr-pull
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: $$service-name$$-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: $$service-name$$-deployment
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 60

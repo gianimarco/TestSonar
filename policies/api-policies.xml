@@ -1,0 +1,17 @@
+<!-- The policy defined in this file demonstrates how to filter data elements from the response payload based on the product associated with the request. -->
+<!-- The snippet assumes that response content is formatted as JSON and contains root-level properties named "minutely", "hourly", "daily", "flags". -->
+<policies>
+	<inbound>
+		<base />
+    <authentication-certificate certificate-id="$$certid$$" />
+	</inbound>
+	<backend>
+		<base />
+	</backend>
+	<outbound>
+		<base />
+	</outbound>
+	<on-error>
+		<base />
+	</on-error>
+</policies>

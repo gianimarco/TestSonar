@@ -1,0 +1,88 @@
+trigger:
+  - develop
+  - staging
+  - master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - template: ../vars.yml
+
+stages:
+  - stage: Deploy_Preparation
+    displayName: Upload Artifacts
+    dependsOn: []
+    jobs:
+      - job: Upload
+        displayName: Upload Terraform Script
+        steps:
+          - task: PublishPipelineArtifact@1
+            displayName: Upload Terraform Script
+            inputs:
+              targetPath: $(Build.SourcesDirectory)/kubernetes
+              artifactName: terrakube
+          - task: PublishPipelineArtifact@1
+            displayName: Upload Import Settings
+            inputs:
+              targetPath: '$(Build.SourcesDirectory)/import-settings.ps1'
+              artifactName: importsettings
+          - task: PublishPipelineArtifact@1
+            displayName: Upload Settings
+            inputs:
+              targetPath: '${{ variables.project_settings_path }}/appsettings.${{ variables.environment }}.json'
+              artifactName: settings
+          - task: PublishPipelineArtifact@1
+            displayName: Upload APIM Service URL Script
+            inputs:
+              targetPath: '$(Build.SourcesDirectory)/azure/apim-serviceurl.ps1'
+              artifactName: serviceurl
+  - stage: Build
+    dependsOn: []
+    jobs:
+      - job: Build
+        displayName: Build and Test
+        steps:
+          - task: NuGetToolInstaller@1
+            displayName: "Install Nuget"
+            inputs:
+              versionSpec:
+              checkLatest: true
+          - task: NuGetCommand@2
+            displayName: "Restore"
+            inputs:
+              command: 'restore'
+              restoreSolution: '**/*.sln'
+              feedsToUse: 'config'
+              nugetConfigPath: 'NuGet.config'
+          - task: DotNetCoreCLI@2
+            displayName: "Build"
+            inputs:
+              command: 'build'
+              projects: '**/*.sln'
+          - task: DotNetCoreCLI@2
+            displayName: "Unit Test"
+            inputs:
+              command: 'test'
+              projects: '**/*Tests.csproj'
+              arguments: '--no-build'
+          - task: DotNetCoreCLI@2
+            displayName: "Publish"
+            inputs:
+              command: 'publish'
+              publishWebProjects: false
+              projects: ${{ variables.project_path }}
+              arguments: '--output $(System.DefaultWorkingDirectory)/docker/app/'
+              zipAfterPublish: false
+              modifyOutputPath: false
+              workingDirectory: '$(System.DefaultWorkingDirectory)/docker/'
+          - task: SonarQubePrepare@4
+            inputs:
+              SonarQube: 'SonarQubeSand'
+              scannerMode: 'MSBuild'
+              projectKey: 'f410a5a8eb07489d74215ae7c79de70643bfe8bc'
+              projectName: 'SandboxDevopsProject'
+          - task: SonarQubeAnalyze@4
+          - task: SonarQubePublish@4
+            inputs:
+              pollingTimeoutSec: '300'

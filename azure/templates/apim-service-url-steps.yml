@@ -1,0 +1,23 @@
+parameters:
+  connected_service_name_arm: ''
+  rg_name: '$(resource_group_name)'
+  api_service_name: '$(api_service_name)'
+
+# The below steps will configure the correct service url on APIM.
+steps:
+  - task: AzurePowerShell@4
+    displayName: "Configure APIM Service URL"
+    inputs:
+      azurePowerShellVersion: latestVersion
+      azureSubscription: ${{ parameters.connected_service_name_arm }}
+      scriptType: 'FilePath'
+      scriptPath: '$(Pipeline.Workspace)/serviceurl/apim-serviceurl.ps1'
+      errorActionPreference: 'continue'
+    env:
+      SOURCE_DIR: $(Pipeline.Workspace)
+      RG_NAME: ${{ parameters.rg_name }}
+      SERVICE_NAME: ${{ parameters.api_service_name }}
+      API_ID: $(api_id)
+      API_VERSION: $(api_version)
+      API_VERSION_SUFFIX: $(version_suffix)
+      API_PATH: $(api_path)

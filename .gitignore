@@ -1,0 +1,7 @@
+**/.vs/*
+**/bin/*
+**/publish/*
+**/obj/*
+**/*.csproj.user
+/src/DirectTransact.WebApi.PayAT/Properties/PublishProfiles/DT-API-ZAN-DEV-PayAtStub - Web Deploy.pubxml.user
+/src/DirectTransact.WebApi.PayAT/Properties/PublishProfiles/DT-API-ZAN-DEV-PayAtStub - Web Deploy.pubxml

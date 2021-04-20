@@ -1,0 +1,93 @@
+variables:
+  ##### Development ####
+  ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}:
+    # Docker and Environment Details
+    docker_tag_suffix: -rc
+    environment: Development
+    version_suffix: -dev
+    # Resource Details
+    ip_name: "DT-PIP-ZAN-DEV-SBUS"
+    ip_resource_group_name: "MC_DT-RSG-ZAN-DEV-SBUS_DT-AKS-ZAN-DEV-SBUS_southafricanorth"
+    cluster_name: "DT-AKS-ZAN-DEV-SBUS"
+    resource_group_name: "DT-RSG-ZAN-DEV-SBUS"
+    api_service_name: "DT-APIM-ZAN-DEV-SBUS"
+    certificate_id: ingress-cert
+    # Cluster Details
+    cluster_namespace: "development"
+    ingress_class: nginx-dev
+    # App Config
+    app_config_name: "DT-AC-WEU-DEV-SBUS"
+    app_config_connection_string: "Endpoint=https://dt-ac-weu-dev-sbus.azconfig.io;Id=iabO-l9-s0:4bgePqmt8LQwewj80hzW;Secret=I5BzPzS25vvwZWvv/7Or81zrqZi8fNI3NzReoYaKL/A="
+  ##### Staging ####
+  ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/staging') }}:
+    # Docker and Environment Details
+    docker_tag_suffix: -rc
+    environment: Staging
+    version_suffix: -staging
+    # Resource Details
+    ip_name: "DT-PIP-ZAN-STG-SBUS"
+    ip_resource_group_name: "MC_DT-RSG-ZAN-DEV-SBUS_DT-AKS-ZAN-DEV-SBUS_southafricanorth"
+    cluster_name: "DT-AKS-ZAN-DEV-SBUS"
+    resource_group_name: "DT-RSG-ZAN-DEV-SBUS"
+    api_service_name: "DT-APIM-ZAN-DEV-SBUS"
+    certificate_id: ingress-cert-staging
+    # Cluster Details
+    cluster_namespace: "staging"
+    ingress_class: nginx-staging
+    # App Config
+    app_config_name: "DT-AC-WEU-DEV-SBUS"
+    app_config_connection_string: "Endpoint=https://dt-ac-weu-dev-sbus.azconfig.io;Id=iabO-l9-s0:4bgePqmt8LQwewj80hzW;Secret=I5BzPzS25vvwZWvv/7Or81zrqZi8fNI3NzReoYaKL/A="
+  ##### Production ####
+  ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
+    # Docker and Environment Details
+    docker_tag_suffix:
+    environment: Production
+    version_suffix:
+    #Primary Resource Details
+    ip_name: "DT-PIP-ZAN-PROD-SBUS"
+    ip_resource_group_name: "MC_DT-RSG-ZAN-PROD-SBUS_DT-AKS-ZAN-PROD-SBUS_southafricanorth"
+    cluster_name: "DT-AKS-ZAN-PROD-SBUS"
+    resource_group_name: "DT-RSG-ZAN-PROD-SBUS"
+    api_service_name: "DT-APIM-ZAN-PROD-SBUS"
+    # Secondary Resource Details
+    secondary_ip_name: "DT-PIP-WEU-PROD-SBUS"
+    secondary_ip_resource_group_name: "MC_DT-RSG-WEU-PROD-SBUS_DT-AKS-WEU-PROD-SBUS_westeurope"
+    secondary_cluster_name: "DT-AKS-WEU-PROD-SBUS"
+    secondary_resource_group_name: "DT-RSG-WEU-PROD-SBUS"
+    secondary_api_service_name: "DT-APIM-WEU-PROD-SBUS"
+    # Shared Resource Details
+    certificate_id: ingress-cert
+    # Cluster Details
+    cluster_namespace: "production"
+    ingress_class: nginx
+    # App Config
+    app_config_name: "DT-AC-WEU-PROD-SBUS"
+    app_config_connection_string: "Endpoint=https://dt-ac-weu-prod-sbus.azconfig.io;Id=nhub-l9-s0:mHr9S5xudRi8GKyrbl11;Secret=iyTmkcV0rOPsDcsXRyp6Yew6Zcxx6/br0D436xN/e/g="
+
+  # Product Details
+  product_id: beapipayat
+  product_name: BackendAPIPayAt
+  product_desc: APIs for PayAt
+
+  # API Version Set Details
+  api_version_set_id: beapipayat-versionset
+  api_version_set_name: BeAPIPayAt Api
+  api_version_set_scheme: Header #Segment, Query, Header
+  api_version_set_header_name: x-beapipayat-api-version
+  api_version_set_query_name: beapipayat-api-version
+
+  # API Details
+  api_id: beapipayat-api
+  api_path: beapipayat
+  api_version: 1.0.0
+
+  # API Specification Details
+  specification_path: "src/DirectTransact.WebApi.PayAT/api-specification.yml"
+
+  # Build Configuration
+  image_name: webapi-beapipayat
+  project_path: '**/src/DirectTransact.WebApi.PayAT/DirectTransact.WebApi.PayAT.csproj'
+
+  # App Config Setting
+  app_config_prefix: "DT.SBUS.beapipayat:"
+  project_settings_path: "src/DirectTransact.WebApi.PayAT/"

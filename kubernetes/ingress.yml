@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: $$service-name$$
+  annotations:
+    nginx.ingress.kubernetes.io/auth-tls-secret: $$namespace$$/ca-secret
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
+    nginx.ingress.kubernetes.io/auth-tls-verify-depth: "1"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    kubernetes.io/ingress.class: $$ingress$$
+spec:
+  rules:
+    - host: dt-sbus.com
+      http:
+        paths:
+          - path: /$$path$$(/|$)(.*)
+            backend:
+              serviceName: $$service-name$$-svc
+              servicePort: 80
+  tls:
+    - hosts:
+        - dt-sbus.com
+      secretName: ca-secret

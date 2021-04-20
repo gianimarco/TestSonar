@@ -1,0 +1,39 @@
+parameters:
+  connected_service_name_arm: ''
+  rg_name: '$(resource_group_name)'
+  api_service_name: '$(api_service_name)'
+
+steps:
+  - task: Bash@3
+    displayName: "Fix Policies"
+    inputs:
+      targetType: 'inline'
+      script: |
+        # Configure
+        cd $(Build.SourcesDirectory)/policies
+        sed -i 's|\$\$certid\$\$|$(certificate_id)|g' api-policies.xml
+  - task: AzurePowerShell@4
+    displayName: "Run Configuration Script"
+    inputs:
+      azurePowerShellVersion: latestVersion
+      azureSubscription: ${{ parameters.connected_service_name_arm }}
+      scriptType: 'FilePath'
+      scriptPath: '$(Build.SourcesDirectory)/azure/apim.ps1'
+      errorActionPreference: 'continue'
+    env:
+      SOURCE_DIR: $(Build.SourcesDirectory)
+      RG_NAME: ${{ parameters.rg_name }}
+      SERVICE_NAME: ${{ parameters.api_service_name }}
+      PRODUCT_ID: $(product_id)
+      PRODUCT_NAME: $(product_name)
+      PRODUCT_DESCRIPTION: $(product_desc)
+      API_ID: $(api_id)
+      API_VERSION: $(api_version)
+      API_VERSION_SUFFIX: $(version_suffix)
+      API_PATH: $(api_path)
+      API_SPECIFICATION_PATH: $(specification_path)
+      API_VERSIONSET_ID: $(api_version_set_id)
+      API_VERSIONSET_NAME: $(api_version_set_name)
+      API_VERSIONSET_SCHEME: $(api_version_set_scheme)
+      API_VERSIONSET_HEADER_NAME: $(api_version_set_header_name)
+      API_VERSIONSET_QUERY_NAME: $(api_version_set_query_name)

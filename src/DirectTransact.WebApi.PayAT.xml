@@ -1,0 +1,811 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DirectTransact.WebApi.PayAT</name>
+    </assembly>
+    <members>
+        <member name="T:DirectTransact.WebApi.PayAT.Controllers.AdviceTransactionController">
+            <summary>
+            Pay@ Transaction Advice
+            </summary>
+        </member>
+        <member name="M:DirectTransact.WebApi.PayAT.Controllers.AdviceTransactionController.#ctor(Microsoft.Extensions.Logging.ILogger{DirectTransact.WebApi.PayAT.Controllers.AdviceTransactionController})">
+            <summary>
+            Default constructor for AdviceTransactionController
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.Controllers.AdviceTransactionController.TenderType">
+            <summary>
+            The tender present
+            </summary>
+        </member>
+        <member name="F:DirectTransact.WebApi.PayAT.Controllers.AdviceTransactionController.TenderType.CASH">
+            <summary>
+            Cash
+            </summary>
+        </member>
+        <member name="F:DirectTransact.WebApi.PayAT.Controllers.AdviceTransactionController.TenderType.DEBIT_CARD">
+            <summary>
+            Debit Card
+            </summary>
+        </member>
+        <member name="F:DirectTransact.WebApi.PayAT.Controllers.AdviceTransactionController.TenderType.CREDIT_CARD">
+            <summary>
+            Credit Card
+            </summary>
+        </member>
+        <member name="M:DirectTransact.WebApi.PayAT.Controllers.AdviceTransactionController.AdviceTransaction(DirectTransact.WebApi.PayAT.Controllers.AdviceTransactionController.AdviceModel)">
+            <summary>
+            A TransactionAdvice is used to complete a transaction. This advice notifies the issuer that the payment concluded successfully.
+            </summary>
+            <param name="model">This class is for Advice Transaction Pay@ body</param>
+            <returns></returns>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.Controllers.AdviceTransactionController.AdviceModel">
+            <summary>
+            This class is for Advice Transaction Pay@ body
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.AdviceTransactionController.AdviceModel.accountNumber">
+            <summary>
+            The account holder number for the transaction.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.AdviceTransactionController.AdviceModel.amount">
+            <summary>
+            The amount received, this amount cannot differ from the authorization request amount.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.AdviceTransactionController.AdviceModel.echoData">
+            <summary>
+            This field must be echoed back in the response message.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.AdviceTransactionController.AdviceModel.issuerTransactionID">
+            <summary>
+            The ID that uniquely identifies the transaction on the issuer system, this is from the authorization response.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.AdviceTransactionController.AdviceModel.messageID">
+            <summary>
+            Unique message ID
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.AdviceTransactionController.AdviceModel.networkTransactionID">
+            <summary>
+            The unique Pay@ transaction ID from the authorization request.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.AdviceTransactionController.AdviceModel.repeatIndicator">
+            <summary>
+            Indicates whether this is a repeat of a previous transaction advice.False if this is the first advice and True if this is a repeat of an advice.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.AdviceTransactionController.AdviceModel.networkData">
+            <summary>
+            Refer to NetworkData
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.AdviceTransactionController.AdviceModel.securityData">
+            <summary>
+            Refer to SecurityData
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.AdviceTransactionController.AdviceModel.structuredData">
+            <summary>
+            This field may be used to communicate industryspecific or issuer-specific data. The contents this field is in JSON[ii] format.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.AdviceTransactionController.AdviceModel.tenderType">
+            <summary>
+            The tender present. CASH, DEBIT_CARD or CREDIT_CARD
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.AdviceTransactionController.AdviceModel.transmissionDateTime">
+            <summary>
+            The (local) date and time at which the request message was sent, in the ISO 8601[i] format YYYYMM-DDThh:mm:ss
+            </summary>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.Controllers.AuthorizeController">
+            <summary>
+            Pay@ Authorize Transaction
+            </summary>
+        </member>
+        <member name="F:DirectTransact.WebApi.PayAT.Controllers.AuthorizeController._logger">
+            <summary>
+            Inject the logger injection
+            </summary>
+        </member>
+        <member name="M:DirectTransact.WebApi.PayAT.Controllers.AuthorizeController.#ctor(Microsoft.Extensions.Logging.ILogger{DirectTransact.WebApi.PayAT.Controllers.AuthorizeController},Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            AuthorizeController default constructor
+            </summary>
+            <param name="logger">Logger injaction for AuthorizeController</param>
+        </member>
+        <member name="M:DirectTransact.WebApi.PayAT.Controllers.AuthorizeController.Authorize(DirectTransact.WebApi.PayAT.Controllers.AuthorizeController.AuthorizeModel)">
+            <summary>
+            An AuthorizationRequest is used to authorize a payment.
+            </summary>
+            <param name="model">Body model for Authorize Pay@</param>
+            <returns></returns>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.Controllers.AuthorizeController.AuthorizeModel">
+            <summary>
+            Body model for Authorize Pay@
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.AuthorizeController.AuthorizeModel.accountNumber">
+            <summary>
+            The account holder number for the transaction.The account number is the full Pay@ Account Number as captured on the POS.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.AuthorizeController.AuthorizeModel.amount">
+            <summary>
+            The exact amount to be paid.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.AuthorizeController.AuthorizeModel.echoData">
+            <summary>
+            This field must be echoed back in the response message.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.AuthorizeController.AuthorizeModel.messageID">
+            <summary>
+            Unique message ID for the authorization request.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.AuthorizeController.AuthorizeModel.networkTransactionID">
+            <summary>
+            The unique Pay@ transaction ID.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.AuthorizeController.AuthorizeModel.networkData">
+            <summary>
+            Refer to NetworkData
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.AuthorizeController.AuthorizeModel.securityData">
+            <summary>
+            Refer to SecurityData
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.AuthorizeController.AuthorizeModel.structuredData">
+            <summary>
+            This field may be used to communicate industry-specific or issuer-specific data.The contents of this field is in JSON[ii] format.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.AuthorizeController.AuthorizeModel.transmissionDateTime">
+            <summary>
+            The (local) date and time at which the requestmessage was sent, in the ISO 8601[i] format YYYY-MM-DDThh:mm:ss
+            </summary>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.Controllers.EchoTestController">
+            <summary>
+            Pay@ will periodically send an echo test request to the issuer. The issuer approves all echo test requests
+            </summary>
+        </member>
+        <member name="M:DirectTransact.WebApi.PayAT.Controllers.EchoTestController.#ctor(Microsoft.Extensions.Logging.ILogger{DirectTransact.WebApi.PayAT.Controllers.EchoTestController})">
+            <summary>
+            Default constructor for EchoTestController
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:DirectTransact.WebApi.PayAT.Controllers.EchoTestController.EchoTest(DirectTransact.WebApi.PayAT.Controllers.EchoTestController.EchoTestModel)">
+            <summary>
+            Pay@ will periodically send an echo test request to the issuer. The issuer approves all echo test requests
+            </summary>
+            <param name="model">EchoTest body model for Pay@</param>
+            <returns></returns>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.Controllers.EchoTestController.EchoTestModel">
+            <summary>
+            EchoTest body model for Pay@
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.EchoTestController.EchoTestModel.echoData">
+            <summary>
+            This field must be echoed back in the echo test response message.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.EchoTestController.EchoTestModel.messageID">
+            <summary>
+            Unique message ID
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.EchoTestController.EchoTestModel.securityData">
+            <summary>
+            Refer to SecurityData
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.EchoTestController.EchoTestModel.structuredData">
+            <summary>
+            This field may be used to communicate industry-specific or issuer-specific data.The contents of this field is in JSON[ii] format.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.EchoTestController.EchoTestModel.transmissionDateTime">
+            <summary>
+            The (local) date and time at which the request message was sent, in the ISO 8601[i] YYYY-MM-DDThh:mm:ss
+            </summary>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.Controllers.EnquiryController">
+            <summary>
+            An EnquiryRequest is used to verify that a valid account exists at the issuer, for the customer performing the transaction.
+            </summary>
+        </member>
+        <member name="M:DirectTransact.WebApi.PayAT.Controllers.EnquiryController.#ctor(Microsoft.Extensions.Logging.ILogger{DirectTransact.WebApi.PayAT.Controllers.EnquiryController})">
+            <summary>
+            Default constructor for EnquiryController
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:DirectTransact.WebApi.PayAT.Controllers.EnquiryController.Enquiry(DirectTransact.WebApi.PayAT.Controllers.EnquiryController.EnquiryModel)">
+            <summary>
+            An EnquiryRequest is used to verify that a valid account exists at the issuer, for the customer performing the transaction.
+            </summary>
+            <param name="model">Enquiry model for Pay@</param>
+            <returns></returns>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.Controllers.EnquiryController.EnquiryModel">
+            <summary>
+            This class build the body object for pay@
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.EnquiryController.EnquiryModel.accountNumber">
+            <summary>
+            The account holder number for the transaction.The account number is the full Pay@ Account Number as captured on the POS.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.EnquiryController.EnquiryModel.echoData">
+            <summary>
+            This field must be echoed back in the response message.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.EnquiryController.EnquiryModel.messageID">
+            <summary>
+            Unique message ID for the authorization request.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.EnquiryController.EnquiryModel.networkData">
+            <summary>
+            Refer to NetworkData 
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.EnquiryController.EnquiryModel.securityData">
+            <summary>
+            Refer to SecurityData
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.EnquiryController.EnquiryModel.structuredData">
+            <summary>
+            This field may be used to communicate industry-specific or issuer-specific data.The contents of this field is in JSON[ii] format.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.EnquiryController.EnquiryModel.transmissionDateTime">
+            <summary>
+            The (local) date and time at which the requestmessage was sent, in the ISO 8601[i] format YYYY-MM-DDThh:mm:ss
+            </summary>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.Controllers.ReverseAuthorizationController">
+            <summary>
+            A ReversalAdvice used to reverse a successful authorization.
+            This advice notifies the issuer to close the open transaction.
+            A reversal will only be sent after an authorization. A reversal typically means that the customer opted
+            to not continue with the transaction, or that there was failure at the point-of-sale.
+            A reversal is never sent after a transaction has been completed (via the TransactionAdvice method).
+            </summary>
+        </member>
+        <member name="M:DirectTransact.WebApi.PayAT.Controllers.ReverseAuthorizationController.#ctor(Microsoft.Extensions.Logging.ILogger{DirectTransact.WebApi.PayAT.Controllers.ReverseAuthorizationController})">
+            <summary>
+            Default constructor for ReverseAuthorizationController
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:DirectTransact.WebApi.PayAT.Controllers.ReverseAuthorizationController.ReverseAuthorization(DirectTransact.WebApi.PayAT.Controllers.ReverseAuthorizationController.ReverseAuthorizationModel)">
+            <summary>
+            A ReversalAdvice used to reverse a successful authorization.
+            </summary>
+            <param name="model">ReverseAuthorizationModel body for Pay@</param>
+            <returns></returns>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.Controllers.ReverseAuthorizationController.ReverseAuthorizationModel">
+            <summary>
+            ReverseAuthorizationModel body for Pay@
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.ReverseAuthorizationController.ReverseAuthorizationModel.accountNumber">
+             <summary>
+            The account holder number for the transaction.The account number is the full Pay@ Account Number as captured on the POS.
+             </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.ReverseAuthorizationController.ReverseAuthorizationModel.echoData">
+             <summary>
+            This field must be echoed back in the response message.
+             </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.ReverseAuthorizationController.ReverseAuthorizationModel.issuerTransactionID">
+             <summary>
+            The ID that uniquely identifies the transaction on the issuer system, this is from the authorization response.This field will only be present if the authorization response was received.
+             </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.ReverseAuthorizationController.ReverseAuthorizationModel.messageID">
+             <summary>
+            Unique message ID for the authorization request.
+             </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.ReverseAuthorizationController.ReverseAuthorizationModel.networkTransactionID">
+             <summary>
+            he unique Pay@ transaction ID.
+             </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.ReverseAuthorizationController.ReverseAuthorizationModel.repeaterIndicator">
+             <summary>
+            Indicates whether this is a repeat of a previous reversal advice.False if this is the first reversal and True if this is a repeat of an earlier reversal
+             </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.ReverseAuthorizationController.ReverseAuthorizationModel.networkData">
+             <summary>
+            Refer to NetworkData
+             </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.ReverseAuthorizationController.ReverseAuthorizationModel.securityData">
+             <summary>
+            Refer to SecurityData
+             </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.ReverseAuthorizationController.ReverseAuthorizationModel.structuredData">
+             <summary>
+            This field may be used to communicate industry-specific or issuer-specific data.The contents of this field is in JSON[ii] format.
+             </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Controllers.ReverseAuthorizationController.ReverseAuthorizationModel.transmissionDateTime">
+             <summary>
+            The (local) date and time at which the requestmessage was sent, in the ISO 8601[i] format YYYY-MM-DDThh:mm:ss
+             </summary>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.HelperModels.CustomerData">
+            <summary>
+            The CustomerData object contains information about the customer performing the transaction
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.HelperModels.CustomerData.firstName">
+            <summary>
+            The customer’s first name
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.HelperModels.CustomerData.lastName">
+            <summary>
+            The customer’s last name
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.HelperModels.CustomerData.idNumber">
+            <summary>
+            The customer’s ID number
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.HelperModels.CustomerData.contactNumber">
+            <summary>
+            The customer’s contact number
+            </summary>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.HelperModels.NetwordData">
+            <summary>
+            The NetworkData object contains information about the network, where the transaction was initiated.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.HelperModels.NetwordData.networdID">
+            <summary>
+            Uniquely identifies the network.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.HelperModels.NetwordData.networkName">
+            <summary>
+            The name of the network where the transaction was initiated.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.HelperModels.NetwordData.posData">
+            <summary>
+            Refer to PosData
+            </summary>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.HelperModels.PosData">
+            <summary>
+            The PosData object contains information about the transaction origin
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.HelperModels.PosData.storeID">
+            <summary>
+            Uniquely identifies the store/location in the network
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.HelperModels.PosData.terminalID">
+            <summary>
+            Uniquely identifies the terminal in the store
+            </summary>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.HelperModels.SecurityData">
+            <summary>
+            The SecurityData object contains data used for authentication and data verification.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.HelperModels.SecurityData.login">
+            <summary>
+            Login element to contain loginId and password
+            </summary>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.HelperModels.Login">
+            <summary>
+            Login element to contain loginId and password
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.HelperModels.Login.loginID">
+            <summary>
+            The login ID or username assigned to Pay@
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.HelperModels.Login.password">
+            <summary>
+            The password assigned to Pay@
+            </summary>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.HelperModels.StructuredData">
+            <summary>
+            The StructuredData is a JSON formatted field that contains client-specific or industry-specific data
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.HelperModels.StructuredData.issuerData">
+            <summary>
+            Issuer Data class
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.HelperModels.StructuredData.busData">
+            <summary>
+            Refer to BusData
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.HelperModels.StructuredData.flightData">
+            <summary>
+            Refer to FlightData
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.HelperModels.StructuredData.trafficFineData">
+            <summary>
+            Refer to TrafficFineData
+            </summary>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.HelperModels.IssuerData">
+            <summary>
+            Issuer Data class
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.HelperModels.IssuerData.name">
+            <summary>
+            The name of the issuer
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.HelperModels.IssuerData.contactNumber">
+            <summary>
+            The contact number of the issuer
+            </summary>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.Helpers.RouteManager">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:DirectTransact.WebApi.PayAT.Helpers.RouteManager.#ctor(DirectTransact.WebApi.PayAT.HelperModels.SecurityData,DirectTransact.WebApi.PayAT.HelperModels.NetwordData)">
+            <summary>
+            Default RouteManager constructor
+            </summary>
+        </member>
+        <member name="M:DirectTransact.WebApi.PayAT.Helpers.RouteManager.GetRoute">
+            <summary>
+            Get the client matching details to send the invoke to
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DirectTransact.WebApi.PayAT.Helpers.RouteManager.GetRouteDetails">
+            <summary>
+            Get the latest route details to route to clients
+            </summary>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.Models.AdviceTransactionResponseModel">
+            <summary>
+            Base return model for Advice Transaction
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.AdviceTransactionResponseModel.echoData">
+            <summary>
+            The echo data from the corresponding transaction advice message.Mandatory if present in the transaction advice message. Compulsory
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.AdviceTransactionResponseModel.messageID">
+            <summary>
+            Unique message ID from the transaction advice. Mandatory
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.AdviceTransactionResponseModel.responseCode">
+            <summary>
+            The response code of the message, indicating the result of the transaction advice.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.AdviceTransactionResponseModel.responseText">
+            <summary>
+            Additional information relating to the outcome of the transaction, e.g.a decline reason.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.AdviceTransactionResponseModel.structuredData">
+            <summary>
+            This field may be used to communicate industryspecific or issuer-specific data. The contents this field is in JSON format
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.AdviceTransactionResponseModel.transmissionDateTime">
+            <summary>
+            The (local) date and time at which the request message was sent, in the ISO 8601[i] format YYYYMM-DDThh:mm:ss.
+            </summary>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.Models.AuthorizeResponseModel">
+            <summary>
+            Base return model for Pay@ Authorization Request
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.AuthorizeResponseModel.customerData">
+            <summary>
+            Refer to CustomerData
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.AuthorizeResponseModel.dueDate">
+            <summary>
+            The date and time by which payment must be received in the ISO 8601[i] format YYYY-MMDDThh:mm:ss
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.AuthorizeResponseModel.echoData">
+            <summary>
+            The echo data from the corresponding transaction advice message.Mandatory if present in the transaction advice message. Compulsory
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.AuthorizeResponseModel.issuerTransactionID">
+            <summary>
+            An ID that uniquely identifies the transaction on the issuer system.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.AuthorizeResponseModel.messageID">
+            <summary>
+            Unique message ID from the transaction advice. Mandatory
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.AuthorizeResponseModel.responseCode">
+            <summary>
+            The response code of the message, indicating the result of the transaction advice.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.AuthorizeResponseModel.responseText">
+            <summary>
+            Additional information relating to the outcome of the transaction, e.g.a decline reason.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.AuthorizeResponseModel.structuredData">
+            <summary>
+            This field may be used to communicate industryspecific or issuer-specific data. The contents this field is in JSON format
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.AuthorizeResponseModel.transmissionDateTime">
+            <summary>
+            The (local) date and time at which the request message was sent, in the ISO 8601[i] format YYYYMM-DDThh:mm:ss.
+            </summary>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.Models.EchoTestResponseModel">
+            <summary>
+            Base return model for Echo Test
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.EchoTestResponseModel.echoData">
+            <summary>
+            The echo data from the corresponding echo test request message.Mandatory if present in the authorization request message.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.EchoTestResponseModel.messageID">
+            <summary>
+            Unique message ID from the authorization request.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.EchoTestResponseModel.responseCode">
+            <summary>
+            The response code of the message, indicating the result of the transaction advice.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.EchoTestResponseModel.responseText">
+            <summary>
+            Additional information relating to the outcome of the transaction, e.g.a decline reason.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.EchoTestResponseModel.structuredData">
+            <summary>
+            This field may be used to communicate industryspecific or issuer-specific data. The contents this field is in JSON format
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.EchoTestResponseModel.transmissionDateTime">
+            <summary>
+            The (local) date and time at which the request message was sent, in the ISO 8601[i] format YYYYMM-DDThh:mm:ss.
+            </summary>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.Models.EnquireResponseModel">
+            <summary>
+            Base return model for Enquiry Transaction
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.EnquireResponseModel.amount">
+            <summary>
+            The payment amount
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.EnquireResponseModel.customerData">
+            <summary>
+            Refer to CustomerData 
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.EnquireResponseModel.dueDate">
+            <summary>
+            The date and time by which payment must be received in the ISO 8601[i] format YYYY-MMDDThh:mm:ss
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.EnquireResponseModel.echoData">
+            <summary>
+            The echo data from the corresponding transaction advice message.Mandatory if present in the transaction advice message. Compulsory
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.EnquireResponseModel.exactAmount">
+            <summary>
+            Indicates that the exact amount is due.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.EnquireResponseModel.messageID">
+            <summary>
+            Unique message ID from the transaction advice. Mandatory
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.EnquireResponseModel.responseCode">
+            <summary>
+            The response code of the message, indicating the result of the transaction advice.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.EnquireResponseModel.responseText">
+            <summary>
+            Additional information relating to the outcome of the transaction, e.g.a decline reason.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.EnquireResponseModel.structuredData">
+            <summary>
+            This field may be used to communicate industryspecific or issuer-specific data. The contents this field is in JSON format
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.EnquireResponseModel.transmissionDateTime">
+            <summary>
+            The (local) date and time at which the request message was sent, in the ISO 8601[i] format YYYYMM-DDThh:mm:ss.
+            </summary>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.Models.ReverseAuthorizationResponseModel">
+            <summary>
+            Base return model for Reverse Authorization
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.ReverseAuthorizationResponseModel.echoData">
+            <summary>
+            The echo data from the corresponding transaction advice message.Mandatory if present in the transaction advice message. Compulsory
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.ReverseAuthorizationResponseModel.messageID">
+            <summary>
+            Unique message ID from the transaction advice. Mandatory
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.ReverseAuthorizationResponseModel.responseCode">
+            <summary>
+            The response code of the message, indicating the result of the transaction advice.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.ReverseAuthorizationResponseModel.responseText">
+            <summary>
+            Additional information relating to the outcome of the transaction, e.g.a decline reason.
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.ReverseAuthorizationResponseModel.structuredData">
+            <summary>
+            This field may be used to communicate industryspecific or issuer-specific data. The contents this field is in JSON format
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.ReverseAuthorizationResponseModel.transmissionDateTime">
+            <summary>
+            The (local) date and time at which the request message was sent, in the ISO 8601[i] format YYYYMM-DDThh:mm:ss.
+            </summary>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.Models.RouteDetails">
+            <summary>
+            Model class for routing details to client endpoints
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.RouteDetails.Username">
+            <summary>
+            Client username
+            </summary>
+        </member>
+        <member name="P:DirectTransact.WebApi.PayAT.Models.RouteDetails.EndPointUrl">
+            <summary>
+            Client endpoint url
+            </summary>
+        </member>
+        <member name="T:DirectTransact.WebApi.PayAT.ResponseCode">
+            <summary>
+            Response Codes
+            </summary>
+        </member>
+        <member name="F:DirectTransact.WebApi.PayAT.ResponseCode.APPROVED">
+            <summary>
+            Successfully processed the transaction.
+            </summary>
+        </member>
+        <member name="F:DirectTransact.WebApi.PayAT.ResponseCode.EXCEEDS_NUMBER_OF_PAYMENTS">
+            <summary>
+            The number of payments allowed on an account has exceeded
+            </summary>
+        </member>
+        <member name="F:DirectTransact.WebApi.PayAT.ResponseCode.INVALID_ACCOUNT_NUMBER">
+            <summary>
+            The account number is not a valid issuer account.
+            </summary>
+        </member>
+        <member name="F:DirectTransact.WebApi.PayAT.ResponseCode.INVALID_AMOUNT">
+            <summary>
+            Incorrect amount for the issuer account.
+            </summary>
+        </member>
+        <member name="F:DirectTransact.WebApi.PayAT.ResponseCode.INVALID_AUTHENTICATION">
+            <summary>
+            Invalid login details
+            </summary>
+        </member>
+        <member name="F:DirectTransact.WebApi.PayAT.ResponseCode.EXCEEDS_MAXIMUM_AMOUNT">
+            <summary>
+            The amount exceeds the maximum amount payable
+            </summary>
+        </member>
+        <member name="F:DirectTransact.WebApi.PayAT.ResponseCode.BELOW_MINIMUM_AMOUNT">
+            <summary>
+            The amount is less than the minimum amount payable.
+            </summary>
+        </member>
+        <member name="F:DirectTransact.WebApi.PayAT.ResponseCode.PAYMENT_NOT_ALLOWED">
+            <summary>
+            Any other reason why an account number cannot be paid.
+            </summary>
+        </member>
+        <member name="F:DirectTransact.WebApi.PayAT.ResponseCode.SECURITY_VIOLATION">
+            <summary>
+            Any other security related errors
+            </summary>
+        </member>
+        <member name="F:DirectTransact.WebApi.PayAT.ResponseCode.SYSTEM_MALFUNCTION">
+            <summary>
+            System exception
+            </summary>
+        </member>
+        <member name="F:DirectTransact.WebApi.PayAT.ResponseCode.TIMEOUT">
+            <summary>
+            Processing timeout. Normally sent when the issuer connects a third party processor.
+            </summary>
+        </member>
+        <member name="M:DirectTransact.WebApi.PayAT.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container.
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:DirectTransact.WebApi.PayAT.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+        </member>
+    </members>
+</doc>

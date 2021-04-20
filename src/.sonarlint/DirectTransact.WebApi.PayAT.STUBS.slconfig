@@ -1,0 +1,12 @@
+{
+  "ServerUri": "https://sqsandbox.azurewebsites.net",
+  "Organization": null,
+  "ProjectKey": "SQProjectKey",
+  "ProjectName": "SandboxDevopsProject",
+  "Profiles": {
+    "CSharp": {
+      "ProfileKey": "AXjpTEPEyAE064x3Fi4w",
+      "ProfileTimestamp": "2021-04-19T08:43:12Z"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+# The below steps will download the required pipeline artifacts.
+steps:
+  - download: current
+    artifact: terrakube
+  - download: current
+    artifact: importsettings
+  - download: current
+    artifact: settings
+  - download: current
+    artifact: serviceurl

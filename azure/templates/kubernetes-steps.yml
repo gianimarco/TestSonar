@@ -1,0 +1,67 @@
+parameters:
+  ip_name: '$(ip_name)'
+  ip_resource_group_name: '$(ip_resource_group_name)'
+  cluster_name: '$(cluster_name)'
+  resource_group_name: '$(resource_group_name)'
+  environment_prefix: 'Primary:'
+
+# The below steps will configure Kubernetes and deploy the application.
+steps:
+  - task: Bash@3
+    displayName: "Configure Kube Config"
+    inputs:
+      targetType: 'inline'
+      script: |
+        cd $(Pipeline.Workspace)/terrakube
+        terraform init
+        terraform apply -auto-approve -var 'cluster_name=${{ parameters.cluster_name }}' \
+        -var 'cluster_rg=${{ parameters.resource_group_name }}' -var 'ip_name=${{ parameters.ip_name }}' \
+        -var 'ip_rg=${{ parameters.ip_resource_group_name }}'
+    env:
+      ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+      ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+      ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+      ARM_TENANT_ID: $(ARM_TENANT_ID)
+  - task: Bash@3
+    displayName: "Deploy Deployment"
+    inputs:
+      targetType: 'inline'
+      script: |
+        # Configure
+        cd $(Pipeline.Workspace)/terrakube
+        sed -i 's|\$\$service\-name\$\$|$(api_id)|g' deployment.yml
+        sed -i 's|\$\$image\$\$|$(REGISTRY_SERVER)/$(image_name):$(Build.BuildId)$(docker_tag_suffix)|g' deployment.yml
+        sed -i 's|\$\$environment\$\$|$(environment)|g' deployment.yml
+        sed -i 's|\$\$app\-config\-connection\-string\$\$|$(app_config_connection_string)|g' deployment.yml
+        sed -i 's|\$\$app\-config\-prefix\$\$|$(app_config_prefix)|g' deployment.yml
+        sed -i 's|\$\$port\$\$|5000|g' deployment.yml
+        sed -i 's|\$\$environmentPrefix\$\$|${{ parameters.environment_prefix }}|g' deployment.yml
+
+        # Apply
+        kubectl -n $(cluster_namespace) --kubeconfig="kube-config.yml" apply -f deployment.yml
+  - task: Bash@3
+    displayName: "Deploy Service"
+    inputs:
+      targetType: 'inline'
+      script: |
+        # Configure
+        cd $(Pipeline.Workspace)/terrakube
+        sed -i 's|\$\$service\-name\$\$|$(api_id)|g' service.yml
+        sed -i 's|\$\$port\$\$|5000|g' service.yml
+
+        # Apply
+        kubectl -n $(cluster_namespace) --kubeconfig="kube-config.yml" apply -f service.yml
+  - task: Bash@3
+    displayName: "Deploy Ingress"
+    inputs:
+      targetType: 'inline'
+      script: |
+        # Configure
+        cd $(Pipeline.Workspace)/terrakube
+        sed -i 's|\$\$service\-name\$\$|$(api_id)|g' ingress.yml
+        sed -i 's|\$\$path\$\$|$(api_path)|g' ingress.yml
+        sed -i 's|\$\$namespace\$\$|$(cluster_namespace)|g' ingress.yml
+        sed -i 's|\$\$ingress\$\$|$(ingress_class)|g' ingress.yml
+
+        # Apply
+        kubectl -n $(cluster_namespace) --kubeconfig="kube-config.yml" apply -f ingress.yml
