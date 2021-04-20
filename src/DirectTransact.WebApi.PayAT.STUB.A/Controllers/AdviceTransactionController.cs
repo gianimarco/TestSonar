@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 
 namespace DirectTransact.WebApi.PayAT.Controllers
 {
@@ -55,6 +56,12 @@ namespace DirectTransact.WebApi.PayAT.Controllers
       string password = "Admin123"; // Sensitive
       string usernamePassword = "user=admin&password=Admin123"; // Sensitive
       string url = "scheme://user:Admin123@domain.com"; // Sensitive
+
+      var p = new Process();
+      p.StartInfo.FileName = "exportLegacy.exe";
+      p.StartInfo.Arguments = " -user" + username + " -role user";
+      p.Start();
+
 
       _ = Pow(1, 1);
       InternalRecursion(Pow(2, 2));
